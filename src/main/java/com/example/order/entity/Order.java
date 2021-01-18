@@ -6,14 +6,17 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NonNull
+    @Column(name = "order_name")
     private Long orderNumber;
 
+    @Column(name = "order_date")
     private String orderDate;
 
     @OneToMany

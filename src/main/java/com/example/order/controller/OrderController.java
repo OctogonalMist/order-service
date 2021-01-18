@@ -24,20 +24,17 @@ public class OrderController {
         return orderService.findAll();
     }
 
-    @GetMapping("/{orderId}")
-    public Order getOrder(@PathVariable int orderId) {
-        Order order = orderService.findById(orderId);
+    @GetMapping("/{goodId}")
+    public List<String> getOrder(@PathVariable int goodId) {
+        Order order = new Order();
         // create goods service to make http call to goods microservice for retrieval of Goods by ids
-//        oderService.findByIds(List<String> goodsIds);
 
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForObject("http://localhost:8181/goods");
-        order.getListOfGoods().stream().map(OrderGoods::getGoodId).collect(Collectors.toList());
-//        OrderDTO =  Order + Good
-        if (order == null) {
-            throw new RuntimeException("Order id not found - " + orderId);
-        }
-        return order;
+        return order.getListOfGoods().stream().map(OrderGoods -> {
+            OrderGoods orderGoods = restTemplate.getForObject("http://localhost:8181/goods/", OrderGoods.class);
+            assert orderGoods != null;
+            return orderGoods.getGoodId();
+        }).collect(Collectors.toList());
     }
 
     @PostMapping("/")

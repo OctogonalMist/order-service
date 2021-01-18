@@ -1,15 +1,15 @@
 package com.example.order.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "order_goods")
 public class OrderGoods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
+
+    @Column(name = "good_id")
     private String goodId;
 
     public OrderGoods() {
