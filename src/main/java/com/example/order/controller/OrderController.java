@@ -4,6 +4,7 @@ import com.example.order.entity.Order;
 import com.example.order.entity.OrderGoods;
 import com.example.order.service.OrderService;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +29,9 @@ public class OrderController {
         Order order = orderService.findById(orderId);
         // create goods service to make http call to goods microservice for retrieval of Goods by ids
 //        oderService.findByIds(List<String> goodsIds);
+
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getForObject("http://localhost:8181/goods");
         order.getListOfGoods().stream().map(OrderGoods::getGoodId).collect(Collectors.toList());
 //        OrderDTO =  Order + Good
         if (order == null) {
